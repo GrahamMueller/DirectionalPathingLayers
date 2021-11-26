@@ -1,7 +1,7 @@
 {
   "name": "directional.pathing.layers",
   "displayName": "Possum Game - Directional Pathing Layers",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "unity": "2018.1",
   "displayName": "Directional Pathing Layers",
   "description": "Pathing package for Possum Game",
