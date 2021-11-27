@@ -44,6 +44,100 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         }
     }
 
+    public void Set(DirectionalNode[,] setNodes)
+    {
+        if (setNodes.GetLength(0) != this.directionalNodes.GetLength(0) ||
+            setNodes.GetLength(1) != this.directionalNodes.GetLength(1))
+        {
+            throw new ArgumentException("setNodes size invalid");
+        }
+
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                this.directionalNodes[x, y] = setNodes[x,y];
+            }
+        }
+    }
+
+    public void Set(int directionIndex, int[,] setValue)
+    {
+        if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
+            setValue.GetLength(1) != this.directionalNodes.GetLength(1))
+        {
+            throw new ArgumentException("setValue size invalid");
+        }
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        {
+            throw new ArgumentException("directionIndex index invalid");
+        }
+
+        //Set nodes
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                this.directionalNodes[x, y].directions[directionIndex] = (setValue[x, y] != 0)? true : false;
+            }
+        }
+    }
+
+    public void Set(int directionIndex, bool[,] setValue)
+    {
+        if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
+            setValue.GetLength(1) != this.directionalNodes.GetLength(1))
+        {
+            throw new ArgumentException("setValue size invalid");
+        }
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        {
+            throw new ArgumentException("directionIndex index invalid");
+        }
+
+        //Set nodes
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                this.directionalNodes[x, y].directions[directionIndex] = setValue[x, y];
+            }
+        }
+    }
+
+    public bool[,] Get_bools(int directionIndex)
+    {
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        {
+            throw new ArgumentException("directionIndex index invalid");
+        }
+        bool[,] boolArr = new bool[this.directionalNodes.GetLength(0), this.directionalNodes.GetLength(1)];
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                boolArr[x, y] = this.directionalNodes[x, y].directions[directionIndex];
+            }
+        }
+        return boolArr;
+    }
+
+    public int[,] Get_ints(int directionIndex)
+    {
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        {
+            throw new ArgumentException("directionIndex index invalid");
+        }
+        int[,] intArr = new int[this.directionalNodes.GetLength(0), this.directionalNodes.GetLength(1)];
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                intArr[x, y] = this.directionalNodes[x, y].directions[directionIndex]? 1 : 0;
+            }
+        }
+        return intArr;
+    }
     /// <summary>
     /// Gets number of nodes to the left or right of the center node.  
     /// </summary>

@@ -31,7 +31,7 @@ public class DirectionalNode : ICloneable, IEquatable<DirectionalNode>
 
     public DirectionalNode(bool[] initialNodes)
     {
-        this.directions = initialNodes[0..6];
+        this.directions = new bool[6] { initialNodes[0], initialNodes[1], initialNodes[2], initialNodes[3], initialNodes[4], initialNodes[5] };
     }
 
 
