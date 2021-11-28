@@ -1,7 +1,7 @@
 ﻿using System;
 
 /// <summary>
-/// Individual node that contains 
+/// Individual node that contains directions as a boolean value.
 /// </summary>
 public class DirectionalNode : ICloneable, IEquatable<DirectionalNode>
 {
@@ -76,6 +76,22 @@ public class DirectionalNode : ICloneable, IEquatable<DirectionalNode>
         return newNode;
     }
 
+
+    /// <summary>
+    /// Logical XOR on each direction.
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static DirectionalNode operator ^(DirectionalNode left, DirectionalNode right)
+    {
+        DirectionalNode newNode = new DirectionalNode();
+        for (int i = 0; i < left.directions.Length; ++i)
+        {
+            newNode.directions[i] = left.directions[i] ^ right.directions[i];
+        }
+        return newNode;
+    }
 
 
     /// <summary>

@@ -56,7 +56,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                this.directionalNodes[x, y] = setNodes[x,y];
+                this.directionalNodes[x, y] = setNodes[x, y];
             }
         }
     }
@@ -78,7 +78,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                this.directionalNodes[x, y].directions[directionIndex] = (setValue[x, y] != 0)? true : false;
+                this.directionalNodes[x, y].directions[directionIndex] = (setValue[x, y] != 0) ? true : false;
             }
         }
     }
@@ -133,7 +133,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                intArr[x, y] = this.directionalNodes[x, y].directions[directionIndex]? 1 : 0;
+                intArr[x, y] = this.directionalNodes[x, y].directions[directionIndex] ? 1 : 0;
             }
         }
         return intArr;
@@ -163,6 +163,53 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
 
         resizedLayer |= this;
         this.directionalNodes = resizedLayer.directionalNodes;
+    }
+
+    /// <summary>
+    /// Returns the nodes from a slice of this layer.  
+    /// 
+    /// If any point to slice were to fall outside the area already defined by this layer, 'none' is returned.
+    /// 
+    /// </summary>
+    /// <param name="offsetFromCenterX">Offset from center of map to collect nodes.</param>
+    /// <param name="offsetFromCenterY">Offset from center of map to collect nodes.</param>
+    /// <param name="sliceSideWidth">Number of points to the left and right to collect from offset point.</param>
+    /// <param name="sliceSideLength">Number of points to the forward and back to collect from offset point.</param>
+    /// <returns></returns>
+    public DirectionalLayer GetSlice(int offsetFromCenterX, int offsetFromCenterY, int sliceSideWidth, int sliceSideLength)
+    {
+        if (sliceSideWidth < 0) { sliceSideWidth = 0; }
+        if (sliceSideLength < 0) { sliceSideLength = 0; }
+
+        //Calculate index center.
+        int indexCenterX = this.GetSideWidth() + 1;
+        int indexCenterY = this.GetSideLength() + 1;
+
+        int indexMinX = indexCenterX + offsetFromCenterX - sliceSideWidth - 1;
+        int indexMaxX = indexCenterX + offsetFromCenterX + sliceSideWidth;
+
+        int indexMinY = indexCenterY + offsetFromCenterY - sliceSideLength - 1;
+        int indexMaxY = indexCenterY + offsetFromCenterY + sliceSideLength;
+
+        //Ensure all points are in map
+        if (indexMinX < 0 || 
+            indexMaxX > this.directionalNodes.GetLength(0) ||
+            indexMinY < 0 ||
+            indexMaxY > this.directionalNodes.GetLength(1))
+        {
+            return null; //No support for members outside
+        }
+
+
+        DirectionalLayer returnLayer = new DirectionalLayer(sliceSideWidth, sliceSideLength);
+        for (int x = indexMinX; x < indexMaxX; ++x)
+        {
+            for (int y = indexMinY; y < indexMaxY; ++y)
+            {
+                returnLayer.directionalNodes[x - indexMinX, y - indexMinY] = this.directionalNodes[x, y];
+            }
+        }
+        return returnLayer;
     }
 
 
@@ -220,7 +267,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
     {
         if (left is null || right is null) { return null; }
 
-        //OR creates a layer that contains the greatest of both axis from left and right.
+        //AND creates a layer that contains the smallest of both axis from left and right.
         int min_width = (left.GetSideWidth() <= right.GetSideWidth()) ? left.GetSideWidth() : right.GetSideWidth();
         int min_length = (left.GetSideLength() <= right.GetSideLength()) ? left.GetSideLength() : right.GetSideLength();
 
@@ -247,6 +294,47 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
 
         return newLayer;
     }
+
+
+    /// <summary>
+    /// Logical XOR.  Returns a DirectionalLayer that is made up of the smallest dimensions of left and right.
+    /// Acts as if both left and right are centered on each other.
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static DirectionalLayer operator ^(DirectionalLayer left, DirectionalLayer right)
+    {
+        if (left is null || right is null) { return null; }
+
+        //XOR creates a layer that contains the smallest of both axis from left and right.
+        int min_width = (left.GetSideWidth() <= right.GetSideWidth()) ? left.GetSideWidth() : right.GetSideWidth();
+        int min_length = (left.GetSideLength() <= right.GetSideLength()) ? left.GetSideLength() : right.GetSideLength();
+
+        DirectionalLayer newLayer = new DirectionalLayer(min_width, min_length);
+
+        //From -width to +width, including 0
+        for (int x = -newLayer.GetSideWidth(); x <= newLayer.GetSideWidth(); ++x)
+        {
+            for (int y = -newLayer.GetSideLength(); y <= newLayer.GetSideLength(); ++y)
+            {
+
+                int new_index_x = x + newLayer.GetSideWidth();
+                int new_index_y = y + newLayer.GetSideLength();
+
+                int left_index_x = x + left.GetSideWidth();
+                int left_index_y = y + left.GetSideLength();
+
+                int right_index_x = x + right.GetSideWidth();
+                int right_index_y = y + right.GetSideLength();
+
+                newLayer.directionalNodes[new_index_x, new_index_y] = left.directionalNodes[left_index_x, left_index_y] ^ right.directionalNodes[right_index_x, right_index_y];
+            }
+        }
+
+        return newLayer;
+    }
+
 
     /// <summary>
     /// Logical OR on each node that exists in both 'left' and 'right' if centered.  

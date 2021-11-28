@@ -48,6 +48,28 @@ public class test_DirectionalLayer
         Assert.IsTrue(allFalse.Equals(allFalse & allFalse));
     }
 
+
+    [Test]
+    public void Test_XOR()
+    {
+        DirectionalLayer allTrue = new DirectionalLayer(5, 5);
+        allTrue.Set(true);
+        DirectionalLayer allTrue_tall = new DirectionalLayer(5, 10);
+        allTrue_tall.Set(true);
+        DirectionalLayer allTrue_wide = new DirectionalLayer(10, 5);
+        allTrue_wide.Set(true);
+
+        DirectionalLayer allFalse = new DirectionalLayer(5, 5);
+
+        Assert.IsTrue(allTrue.Equals(allTrue ^ allFalse));
+        Assert.IsTrue(allTrue.Equals(allTrue ^ allFalse));
+        Assert.IsTrue(allTrue.Equals(allFalse ^ allTrue));
+
+        Assert.IsTrue(allFalse.Equals(allTrue ^ allTrue));
+        Assert.IsTrue(allFalse.Equals(allFalse ^ allFalse));
+    }
+
+
     [Test]
     public void Test_Or()
     {
@@ -155,4 +177,50 @@ public class test_DirectionalLayer
         Assert.IsTrue(allTrue.Equals(~~allTrue));
     }
 
+
+    [Test]
+    public void Test_GetSlice()
+    {
+        DirectionalLayer allTrue = new DirectionalLayer(5, 5);
+        DirectionalLayer allTrue_34 = new DirectionalLayer(3, 4);
+        
+        DirectionalLayer allTrue_00 = new DirectionalLayer(0, 0);
+        allTrue.Set(true);
+        allTrue_34.Set(true);
+        allTrue_00.Set(true);
+
+
+        DirectionalLayer sliceLayer = allTrue.GetSlice(0, 0, 5, 5);
+        Assert.IsTrue(allTrue.Equals(sliceLayer));
+
+        sliceLayer = allTrue.GetSlice(0, 0, 3, 4);
+        Assert.IsTrue(allTrue_34.Equals(sliceLayer));
+
+        sliceLayer = allTrue.GetSlice(0, 0, 0, 0);
+        Assert.IsTrue(allTrue_00.Equals(sliceLayer));
+
+        //Test offset
+        //Special layer to test offset.
+        DirectionalLayer layer_22 = new DirectionalLayer(2, 2);
+        layer_22.Set(true);
+        layer_22.directionalNodes[0, 0] = new DirectionalNode(false); //Bottom corner is different
+
+        DirectionalLayer allTrue_11 = new DirectionalLayer(1, 1);
+        allTrue_11.Set(true);
+        
+        //Show we can get slice with bottom corner node set to false
+        sliceLayer = layer_22.GetSlice(-1, -1, 1, 1);
+        Assert.IsTrue(sliceLayer.directionalNodes[0,0].Equals(new DirectionalNode(false)));
+        
+        //Shift up or right by 1 and no longer get inside.
+        sliceLayer = layer_22.GetSlice(0, -1, 1, 1);
+        Assert.IsTrue(allTrue_11.Equals(sliceLayer));
+
+        sliceLayer = layer_22.GetSlice(-1, 0, 1, 1);
+        Assert.IsTrue(allTrue_11.Equals(sliceLayer));
+
+        //Outside of bounds
+        sliceLayer = layer_22.GetSlice(-2, -2, 1, 1);
+        Assert.IsNull(sliceLayer);
+    }
 }
