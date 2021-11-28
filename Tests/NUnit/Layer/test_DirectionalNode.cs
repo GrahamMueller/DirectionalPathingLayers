@@ -6,96 +6,117 @@ public class test_DirectionalNode
     [Test]
     public void Test_Invert()
     {
-        DirectionalNode node_all_true = new DirectionalNode(new bool[] { true, true, true, true, true, true });
+        DirectionalNode node_all_1 = new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 });
 
-        DirectionalNode node_all_false = new DirectionalNode(new bool[] { false, false, false, false, false, false });
+        DirectionalNode node_all_0 = new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 });
 
         //Test ~
-        Assert.IsTrue(node_all_false.Equals(~node_all_true));
-        Assert.IsTrue(node_all_true.Equals(~node_all_false));
-        Assert.IsTrue(node_all_true.Equals(~~node_all_true));
+        Assert.IsTrue(node_all_0.Equals(~node_all_1));
+        Assert.IsTrue(node_all_1.Equals(~node_all_0));
+        Assert.IsTrue(node_all_1.Equals(~~node_all_1));
     }
 
 
     [Test]
     public void Test_Or()
     {
-        DirectionalNode node_all_true = new DirectionalNode(new bool[] { true, true, true, true, true, true });
+        DirectionalNode node_all_1 = new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 });
 
-        DirectionalNode node_all_false = new DirectionalNode(new bool[] { false, false, false, false, false, false });
+        DirectionalNode node_all_0 = new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 });
 
-        DirectionalNode node_all_altTrueFalse = new DirectionalNode(new bool[] { true, false, true, false, true, false });
-        DirectionalNode node_all_altFalseTrue = new DirectionalNode(new bool[] { false, true, false, true, false, true });
+        DirectionalNode node_all_alt10 = new DirectionalNode(new int[] { 1, 0, 1, 0, 1, 0 });
+        DirectionalNode node_all_alt01 = new DirectionalNode(new int[] { 0, 1, 0, 1, 0, 1 });
 
         //Test |
-        Assert.IsTrue(node_all_true.Equals(node_all_true | node_all_true));
-        Assert.IsTrue(node_all_true.Equals(node_all_true | node_all_false));
-        Assert.IsTrue(node_all_true.Equals(node_all_false | node_all_true));
-        Assert.IsTrue(node_all_false.Equals(node_all_false | node_all_false));
-        Assert.IsTrue(node_all_true.Equals(node_all_altTrueFalse | node_all_altFalseTrue));
+        Assert.IsTrue(node_all_1.Equals(node_all_1 | node_all_1));
+        Assert.IsTrue(node_all_1.Equals(node_all_1 | node_all_0));
+        Assert.IsTrue(node_all_1.Equals(node_all_0 | node_all_1));
+        Assert.IsTrue(node_all_0.Equals(node_all_0 | node_all_0));
+        Assert.IsTrue(node_all_1.Equals(node_all_alt10 | node_all_alt01));
     }
 
 
     [Test]
     public void Test_XOr()
     {
-        DirectionalNode node_all_true = new DirectionalNode(new bool[] { true, true, true, true, true, true });
+        DirectionalNode node_all_1 = new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 });
 
-        DirectionalNode node_all_false = new DirectionalNode(new bool[] { false, false, false, false, false, false });
+        DirectionalNode node_all_0 = new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 });
 
-        DirectionalNode node_all_altTrueFalse = new DirectionalNode(new bool[] { true, false, true, false, true, false });
-        DirectionalNode node_all_altFalseTrue = new DirectionalNode(new bool[] { false, true, false, true, false, true });
+        DirectionalNode node_all_alt10 = new DirectionalNode(new int[] { 1, 0, 1, 0, 1, 0 });
+        DirectionalNode node_all_alt01 = new DirectionalNode(new int[] { 0, 1, 0, 1, 0, 1 });
 
         //Test ^
-        Assert.IsTrue(node_all_true.Equals(node_all_true ^ node_all_false));
-        Assert.IsTrue(node_all_true.Equals(node_all_false ^ node_all_true));
-        Assert.IsTrue(node_all_false.Equals(node_all_true ^ node_all_true));
-        Assert.IsTrue(node_all_false.Equals(node_all_false ^ node_all_false));
-        Assert.IsTrue(node_all_true.Equals(node_all_altTrueFalse ^ node_all_altFalseTrue));
+        Assert.IsTrue(node_all_1.Equals(node_all_1 ^ node_all_0));
+        Assert.IsTrue(node_all_1.Equals(node_all_0 ^ node_all_1));
+        Assert.IsTrue(node_all_0.Equals(node_all_1 ^ node_all_1));
+        Assert.IsTrue(node_all_0.Equals(node_all_0 ^ node_all_0));
+        Assert.IsTrue(node_all_1.Equals(node_all_alt10 ^ node_all_alt01));
     }
 
 
     [Test]
     public void Test_And()
     {
-        DirectionalNode node_all_true = new DirectionalNode(new bool[] { true, true, true, true, true, true });
+        DirectionalNode node_all_1 = new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 });
 
-        DirectionalNode node_all_false = new DirectionalNode(new bool[] { false, false, false, false, false, false });
+        DirectionalNode node_all_0 = new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 });
 
-        DirectionalNode node_all_altTrueFalse = new DirectionalNode(new bool[] { true, false, true, false, true, false });
-        DirectionalNode node_all_altFalseTrue = new DirectionalNode(new bool[] { false, true, false, true, false, true });
+        DirectionalNode node_all_alt10 = new DirectionalNode(new int[] { 1, 0, 1, 0, 1, 0 });
+        DirectionalNode node_all_alt01 = new DirectionalNode(new int[] { 0, 1, 0, 1, 0, 1 });
 
         //Test &
-        Assert.IsTrue(node_all_true.Equals(node_all_true & node_all_true));
-        Assert.IsFalse(node_all_true.Equals(node_all_true & node_all_false));
-        Assert.IsTrue(node_all_false.Equals(node_all_altTrueFalse & node_all_altFalseTrue));
+        Assert.IsTrue(node_all_1.Equals(node_all_1 & node_all_1));
+        Assert.IsFalse(node_all_1.Equals(node_all_1 & node_all_0));
+        Assert.IsTrue(node_all_0.Equals(node_all_alt10 & node_all_alt01));
     }
 
 
     [Test]
     public void Test_Equality()
     {
-        DirectionalNode node_all_true = new DirectionalNode(new bool[] { true, true, true, true, true, true });
-        DirectionalNode node_all_true_same = node_all_true;
-        DirectionalNode node_all_true_alt = new DirectionalNode(new bool[] { true, true, true, true, true, true });
-        DirectionalNode node_all_false = new DirectionalNode(new bool[] { false, false, false, false, false, false });
+        DirectionalNode node_all_1 = new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 });
+        DirectionalNode node_all_1_same = node_all_1;
+        DirectionalNode node_all_1_alt = new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 });
+        DirectionalNode node_all_0 = new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 });
 
         //Test ==
-        Assert.IsTrue(node_all_true == node_all_true_same);
-        Assert.IsFalse(node_all_true == node_all_true_alt);
-        Assert.IsFalse(node_all_true == node_all_false);
+        Assert.IsTrue(node_all_1 == node_all_1_same);
+        Assert.IsFalse(node_all_1 == node_all_1_alt);
+        Assert.IsFalse(node_all_1 == node_all_0);
 
         //Test !=
-        Assert.IsFalse(node_all_true != node_all_true_same);
-        Assert.IsTrue(node_all_true != node_all_true_alt);
-        Assert.IsTrue(node_all_true != node_all_false);
+        Assert.IsFalse(node_all_1 != node_all_1_same);
+        Assert.IsTrue(node_all_1 != node_all_1_alt);
+        Assert.IsTrue(node_all_1 != node_all_0);
 
         //Test Equals
-        Assert.IsTrue(node_all_true.Equals(node_all_true_same));
-        Assert.IsTrue(node_all_true.Equals(node_all_true_alt));
-        Assert.IsFalse(node_all_true.Equals(node_all_false));
+        Assert.IsTrue(node_all_1.Equals(node_all_1_same));
+        Assert.IsTrue(node_all_1.Equals(node_all_1_alt));
+        Assert.IsFalse(node_all_1.Equals(node_all_0));
+    }
+
+    [Test]
+    public void Test_Add_Sub()
+    {
+        DirectionalNode node_alt05 = new DirectionalNode(new int[] { 0, 5, 0, 5, 0, 5 });
+        DirectionalNode node_alt50 = new DirectionalNode(new int[] { 5, 0, 5, 0, 5, 0 });
+        DirectionalNode node_alt55 = new DirectionalNode(new int[] { 5, 5, 5, 5, 5, 5 });
+        DirectionalNode node_alt1010 = new DirectionalNode(new int[] { 10, 10, 10, 10, 10, 10 });
+
+        DirectionalNode testNode;
+
+        testNode = node_alt05 + node_alt50;
+        Assert.IsTrue(node_alt55.Equals(testNode));
+
+        testNode += node_alt55;
+        Assert.IsTrue(node_alt1010.Equals(testNode));
+
+        //Now subtract back to 0
+        testNode -= node_alt55;
+        Assert.IsTrue(node_alt55.Equals(testNode));
+
+        testNode -= node_alt55;
+        Assert.IsTrue(new DirectionalNode(0).Equals(testNode));
     }
 }
-
-
-

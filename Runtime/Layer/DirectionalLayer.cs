@@ -1,5 +1,7 @@
 ﻿using System;
 
+
+
 /// <summary>
 /// DirectionalLayer assumes the default node type is all blocked, or alternately can be treated as which directions differ from an undefined default node.
 /// </summary>
@@ -23,6 +25,17 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
     }
 
     public void Set(bool setValue)
+    {
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                this.directionalNodes[x, y] = new DirectionalNode(setValue);
+            }
+        }
+    }
+
+    public void Set(int setValue)
     {
         for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
         {
@@ -61,29 +74,13 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         }
     }
 
+    /// <summary>
+    /// Sets all values in direction index to value set in setValue.
+    /// This is used to set a single axis.
+    /// </summary>
+    /// <param name="directionIndex"></param>
+    /// <param name="setValue"></param>
     public void Set(int directionIndex, int[,] setValue)
-    {
-        if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
-            setValue.GetLength(1) != this.directionalNodes.GetLength(1))
-        {
-            throw new ArgumentException("setValue size invalid");
-        }
-        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
-        {
-            throw new ArgumentException("directionIndex index invalid");
-        }
-
-        //Set nodes
-        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
-        {
-            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
-            {
-                this.directionalNodes[x, y].directions[directionIndex] = (setValue[x, y] != 0) ? true : false;
-            }
-        }
-    }
-
-    public void Set(int directionIndex, bool[,] setValue)
     {
         if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
             setValue.GetLength(1) != this.directionalNodes.GetLength(1))
@@ -105,6 +102,28 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         }
     }
 
+    public void Set(int directionIndex, bool[,] setValue)
+    {
+        if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
+            setValue.GetLength(1) != this.directionalNodes.GetLength(1))
+        {
+            throw new ArgumentException("setValue size invalid");
+        }
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        {
+            throw new ArgumentException("directionIndex index invalid");
+        }
+
+        //Set nodes
+        for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
+        {
+            for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
+            {
+                this.directionalNodes[x, y].directions[directionIndex] = setValue[x, y] ? 1 : 0;
+            }
+        }
+    }
+
     public bool[,] Get_bools(int directionIndex)
     {
         if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
@@ -116,7 +135,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                boolArr[x, y] = this.directionalNodes[x, y].directions[directionIndex];
+                boolArr[x, y] = this.directionalNodes[x, y].directions[directionIndex] != 0 ? true : false;
             }
         }
         return boolArr;
@@ -133,7 +152,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                intArr[x, y] = this.directionalNodes[x, y].directions[directionIndex] ? 1 : 0;
+                intArr[x, y] = this.directionalNodes[x, y].directions[directionIndex];
             }
         }
         return intArr;
@@ -192,7 +211,7 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
         int indexMaxY = indexCenterY + offsetFromCenterY + sliceSideLength;
 
         //Ensure all points are in map
-        if (indexMinX < 0 || 
+        if (indexMinX < 0 ||
             indexMaxX > this.directionalNodes.GetLength(0) ||
             indexMinY < 0 ||
             indexMaxY > this.directionalNodes.GetLength(1))
@@ -407,6 +426,76 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
 
         return newLayer;
     }
+
+
+    /// <summary>
+    /// Product of left and right.  Returns a DirectionalLayer with the smallest dimensions of X and Y.
+    /// Acts as if both left and right are centered on each other.
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static DirectionalLayer operator *(DirectionalLayer left, DirectionalLayer right)
+    {
+        if (left is null || right is null) { return null; }
+
+        //AND creates a layer that contains the smallest of both axis from left and right.
+        int min_width = (left.GetSideWidth() <= right.GetSideWidth()) ? left.GetSideWidth() : right.GetSideWidth();
+        int min_length = (left.GetSideLength() <= right.GetSideLength()) ? left.GetSideLength() : right.GetSideLength();
+
+        DirectionalLayer newLayer = new DirectionalLayer(min_width, min_length);
+
+        //From -width to +width, including 0
+        for (int x = -newLayer.GetSideWidth(); x <= newLayer.GetSideWidth(); ++x)
+        {
+            for (int y = -newLayer.GetSideLength(); y <= newLayer.GetSideLength(); ++y)
+            {
+
+                int new_index_x = x + newLayer.GetSideWidth();
+                int new_index_y = y + newLayer.GetSideLength();
+
+                int left_index_x = x + left.GetSideWidth();
+                int left_index_y = y + left.GetSideLength();
+
+                int right_index_x = x + right.GetSideWidth();
+                int right_index_y = y + right.GetSideLength();
+
+                newLayer.directionalNodes[new_index_x, new_index_y] = left.directionalNodes[left_index_x, left_index_y] * right.directionalNodes[right_index_x, right_index_y];
+            }
+        }
+
+        return newLayer;
+    }
+
+    public static DirectionalLayer operator *(int left, DirectionalLayer right)
+    {
+        if (right is null) { return null; }
+
+        //AND creates a layer that contains the smallest of both axis from left and right.
+        int min_width = right.GetSideWidth();
+        int min_length = right.GetSideLength();
+
+        DirectionalLayer newLayer = new DirectionalLayer(min_width, min_length);
+
+        //From -width to +width, including 0
+        for (int x = -newLayer.GetSideWidth(); x <= newLayer.GetSideWidth(); ++x)
+        {
+            for (int y = -newLayer.GetSideLength(); y <= newLayer.GetSideLength(); ++y)
+            {
+
+                int new_index_x = x + newLayer.GetSideWidth();
+                int new_index_y = y + newLayer.GetSideLength();
+
+                int right_index_x = x + right.GetSideWidth();
+                int right_index_y = y + right.GetSideLength();
+
+                newLayer.directionalNodes[new_index_x, new_index_y] = left * right.directionalNodes[right_index_x, right_index_y];
+            }
+        }
+
+        return newLayer;
+    }
+
 
     public static DirectionalLayer operator ~(DirectionalLayer node)
     {
