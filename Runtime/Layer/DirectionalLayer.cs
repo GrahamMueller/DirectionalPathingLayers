@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// DirectionalLayer assumes the default node type is all blocked, or alternately can be treated as which directions differ from an undefined default node.
 /// </summary>
-class DirectionalLayer : IEquatable<DirectionalLayer>
+public class DirectionalLayer : IEquatable<DirectionalLayer>
 {
     public DirectionalNode[,] directionalNodes;
 

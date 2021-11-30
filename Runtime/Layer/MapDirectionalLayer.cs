@@ -2,7 +2,7 @@
 //TODO
 //Delegate callbacks
 //Layer modified
-class MapDirectionalLayer
+public class MapDirectionalLayer
 {
     DirectionalLayer directionLayer;
     DirectionalLayer addedCountLayer;
