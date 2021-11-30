@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 
 /// <summary>
@@ -240,7 +240,24 @@ class DirectionalLayer : IEquatable<DirectionalLayer>
 
     public override string ToString()
     {
-        return null;
+        
+        string returnString = "";
+        for (int i = 0; i < 6; ++i)
+        {
+            int[,] intArr = this.Get_ints(i);
+            returnString += "[";
+            for (int x = 0; x < intArr.GetLength(0); ++x)
+            {
+                List<int> rowInts = new List<int>();
+                for (int y = 0; y < intArr.GetLength(1); ++y)
+                {
+                    rowInts.Add(intArr[x, y]);
+                }
+                returnString += "\n[" + string.Join(",", rowInts) + "]";
+            }
+            returnString += "]";
+        }
+        return returnString;
     }
 
 

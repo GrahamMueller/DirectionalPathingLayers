@@ -62,7 +62,7 @@ class MapDirectionalLayer
 
             //Get current layer diff
             DirectionalNode currentDirectionalDiff = this.directionLayer.directionalNodes[indexX, indexY] ^ this.defaultNode;
-            DirectionalNode newDiff = currentDirectionalDiff | addingNode;
+            DirectionalNode newDiff = (currentDirectionalDiff | addingNode) * (this.addedCountLayer.directionalNodes[indexX, indexY] & this.addedCountLayer.directionalNodes[indexX, indexY]);
             this.directionLayer.directionalNodes[indexX, indexY] = this.defaultNode ^ newDiff;
         }
     }

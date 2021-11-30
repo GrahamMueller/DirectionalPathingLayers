@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
+using System;
 
 public class test_DirectionalPathingLayers
 {
@@ -45,13 +47,13 @@ public class test_DirectionalPathingLayers
 
         //Now subtract again layer.  Should result in initial layer that matches defaults.
         mapLayer.AddDirectionalLayerAtPoint(-1 * addingLayer, 1, 1);
-        Assert.IsTrue(mapLayer.DirectionLayer.Equals(~(new DirectionalLayer(5,5))));
+        Assert.IsTrue(mapLayer.DirectionLayer.Equals(~(new DirectionalLayer(5, 5))));
     }
 
     [Test]
     public void SimpleAddSub_cost()
     {
-        MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 0,0,0,0,0,0 }));
+        MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 }));
 
         //Create layer with alternating 1 and 0 spreading from 0.
         DirectionalLayer addingLayer = new DirectionalLayer(0, 0);
@@ -81,5 +83,41 @@ public class test_DirectionalPathingLayers
         Assert.IsTrue(mapLayer.AddedCountLayer.Equals((new DirectionalLayer(5, 5))));
 
     }
+
+    struct DirectionalLayerTestType
+    {
+        public int centerX;
+        public int centerY;
+        public DirectionalLayer layer;
+    };
+    [Test]
+    public void Test_LargeAddRemove()
+    {
+        MapDirectionalLayer mapLayer = new MapDirectionalLayer(50, 50, new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 }));
+        
+        //Add a large number of points randomly around.  Some of these will exist entirely outside the map.
+        List<DirectionalLayerTestType> addedLayersList = new List<DirectionalLayerTestType>();
+        Random rand = new Random();
+        int test_amount = 500;
+        for (int i = 0; i < test_amount; ++i)
+        {
+            DirectionalLayerTestType newTestLayer;
+            newTestLayer.centerX = rand.Next(-mapLayer.DirectionLayer.GetSideWidth() - 20, mapLayer.DirectionLayer.GetSideWidth() + 20);
+            newTestLayer.centerY = rand.Next(-mapLayer.DirectionLayer.GetSideLength() - 20, mapLayer.DirectionLayer.GetSideLength() + 20);
+            newTestLayer.layer = new DirectionalLayer(rand.Next(0, 10), rand.Next(0, 10));
+            newTestLayer.layer.Set(new DirectionalNode(new int[] { rand.Next(0,2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2) }));
+            addedLayersList.Add(newTestLayer);
+            mapLayer.AddDirectionalLayerAtPoint(newTestLayer.layer, newTestLayer.centerX, newTestLayer.centerY);
+        }
+
+        foreach (DirectionalLayerTestType addedTestLayer in addedLayersList) {
+            mapLayer.AddDirectionalLayerAtPoint(-1 * addedTestLayer.layer, addedTestLayer.centerX, addedTestLayer.centerY);
+        }
+
+        //Now get complete slice of map layer and compare it to empty.
+        Assert.IsTrue(mapLayer.DirectionLayer.GetSlice(0, 0, 50, 50).Equals(new DirectionalLayer(50, 50)));
+        Assert.IsTrue(mapLayer.AddedCountLayer.GetSlice(0, 0, 50, 50).Equals(new DirectionalLayer(50, 50)));
+    }
 }
+
 
