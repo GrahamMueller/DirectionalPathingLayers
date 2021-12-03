@@ -178,7 +178,7 @@ public class DirectionalNode : ICloneable, IEquatable<DirectionalNode>
         {
             //If left is 0 but not right, OR left is not 0 but right is, it's XOR
             newNode.directions[i] = ((left.directions[i] == 0 && right.directions[i] != 0) ||
-                                     (left.directions[i] == 1 && right.directions[i] == 0)) ? 1 : 0;
+                                     (left.directions[i] != 0 && right.directions[i] == 0)) ? 1 : 0;
         }
         return newNode;
     }

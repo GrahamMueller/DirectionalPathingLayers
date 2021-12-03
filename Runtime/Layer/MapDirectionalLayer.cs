@@ -58,12 +58,14 @@ public class MapDirectionalLayer
             indexY < this.directionLayer.directionalNodes.GetLength(1))
         {
             DirectionalNode diffNode = this.defaultNode ^ addingNode;
-            this.addedCountLayer.directionalNodes[indexX, indexY] += diffNode * addingNode;
+            //addingNode is difference to this node, so we add its changes.
+            this.addedCountLayer.directionalNodes[indexX, indexY] +=  addingNode;
 
             //Get current layer diff
-            DirectionalNode currentDirectionalDiff = this.directionLayer.directionalNodes[indexX, indexY] ^ this.defaultNode;
-            DirectionalNode newDiff = (currentDirectionalDiff | addingNode) * (this.addedCountLayer.directionalNodes[indexX, indexY] & this.addedCountLayer.directionalNodes[indexX, indexY]);
-            this.directionLayer.directionalNodes[indexX, indexY] = this.defaultNode ^ newDiff;
+            //DirectionalNode currentDirectionalDiff = this.directionLayer.directionalNodes[indexX, indexY] ^ this.defaultNode;
+            //DirectionalNode newDiff = (currentDirectionalDiff | addingNode) * (this.addedCountLayer.directionalNodes[indexX, indexY] & this.addedCountLayer.directionalNodes[indexX, indexY]);
+            //this.directionLayer.directionalNodes[indexX, indexY] = this.defaultNode ^ newDiff;
+            this.directionLayer.directionalNodes[indexX, indexY] = this.addedCountLayer.directionalNodes[indexX, indexY] ^ this.defaultNode;
         }
     }
 
