@@ -18,8 +18,8 @@ public class MapDirectionalLayer
 
     }
 
-    internal DirectionalLayer DirectionLayer { get => this.directionLayer;}
-    internal DirectionalLayer AddedCountLayer { get => this.addedCountLayer;}
+    public DirectionalLayer DirectionLayer { get => this.directionLayer;}
+    public DirectionalLayer AddedCountLayer { get => this.addedCountLayer;}
 
 
     /// <summary>
