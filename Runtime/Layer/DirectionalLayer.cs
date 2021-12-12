@@ -241,6 +241,47 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         return returnLayer;
     }
 
+    /// <summary>
+    /// Attempts to return the node given a world position, with this layer existing at 0,0
+    /// </summary>
+    /// <returns>Returns null if point is out of bounds.</returns>
+    public DirectionalNode GetNodeAtWorldPoint(int x, int y)
+    {
+        x = this.WorldXToIndex(x);
+        y = this.WorldYToIndex(y);
+
+        if (x < 0 ||
+            y < 0 ||
+            x >= this.directionalNodes.GetLength(0) ||
+            y >= this.directionalNodes.GetLength(1))
+        {
+            return null;
+        }
+
+        return this.directionalNodes[x, y] ;
+    }
+
+    public int WorldXToIndex(int x)
+    {
+        return x + this.GetSideWidth();
+    }
+
+    public int WorldYToIndex(int y)
+    {
+        return y + this.GetSideLength();
+    }
+
+
+    public int IndexXToWorld(int x)
+    {
+        return x - this.GetSideWidth();
+    }
+
+    public int IndexYToWorld(int y)
+    {
+        return y - this.GetSideLength();
+    }
+
 
     public override int GetHashCode()
     {
