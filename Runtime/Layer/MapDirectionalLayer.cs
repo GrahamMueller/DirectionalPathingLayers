@@ -69,4 +69,15 @@ public class MapDirectionalLayer
         }
     }
 
+    public bool IsIndexPointInLayer(int indexX, int indexY)
+    {
+        if (indexX < 0 ||
+            indexX >= this.directionLayer.directionalNodes.GetLength(0) ||
+            indexY < 0 ||
+            indexY >= this.directionLayer.directionalNodes.GetLength(1))
+        {
+            return false;
+        }
+        return true;
+    }
 }
