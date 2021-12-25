@@ -118,6 +118,20 @@ public class test_DirectionalPathingLayers
         Assert.IsTrue(mapLayer.DirectionLayer.GetSlice(0, 0, 50, 50).Equals(new DirectionalLayer(50, 50)));
         Assert.IsTrue(mapLayer.AddedCountLayer.GetSlice(0, 0, 50, 50).Equals(new DirectionalLayer(50, 50)));
     }
+
+    [TestCase(0, 0, true)]
+    [TestCase(-1, 0, false)]
+    [TestCase(0, -1, false)]
+    [TestCase(-1, -1, false)]
+    [TestCase(10, 10, true)]
+    [TestCase(10, 11, false)]
+    [TestCase(11, 10, false)]
+    [Test]
+    public void Test_IsIndexPointInLayer(int indexX, int indexY, bool expected_result)
+    {
+        MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 }));
+        Assert.AreEqual(mapLayer.IsIndexPointInLayer(indexX, indexY), expected_result);
+    }
 }
 
 
