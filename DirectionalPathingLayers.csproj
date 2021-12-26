@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <StartupObject>Profile_MapDirectionalLayer</StartupObject>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
