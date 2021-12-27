@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
+namespace DirectionalPathingLayers.Tests
 {
     class test_DirectionalNodeVisualize
     {
