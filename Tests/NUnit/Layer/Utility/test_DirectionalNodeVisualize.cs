@@ -12,8 +12,10 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
         public void Test_Tiles()
         {
             string projectRoot = this.GetRootProjectFolder();
-            string testImage_5 = Path.GetFullPath(Path.Combine(projectRoot, @"Tests\NUnit\Layer\Utility\visualize_tiles_5.png"));
-            string testImage_10 = Path.GetFullPath(Path.Combine(projectRoot, @"Tests\NUnit\Layer\Utility\visualize_tiles_10.png"));
+            string testImage_5 = Path.Combine(new string[] { "Tests", "NUnit", "Layer", "Utility", "visualize_tiles_5.png" });
+            testImage_5 = Path.GetFullPath(Path.Combine(projectRoot, testImage_5));
+            string testImage_10 = Path.Combine(new string[] { "Tests", "NUnit", "Layer", "Utility", "visualize_tiles_10.png" });
+            testImage_10 = Path.GetFullPath(Path.Combine(projectRoot, testImage_10));
 
             MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 }));
             DirectionalNodeVisualize vis = new DirectionalNodeVisualize(mapLayer.DirectionLayer.directionalNodes, 5);
@@ -46,7 +48,8 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
         public void Test_Directions()
         {
             string projectRoot = this.GetRootProjectFolder();
-            string testImage = Path.GetFullPath(Path.Combine(projectRoot, @"Tests\NUnit\Layer\Utility\visualize_directions.png"));
+            string testImage = Path.Combine(new string[] { "Tests", "NUnit", "Layer", "Utility", "visualize_directions.png" });
+            testImage = Path.GetFullPath(Path.Combine(projectRoot, testImage));
 
 
             MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 }));
@@ -69,7 +72,10 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
         public void Test_Background()
         {
             string projectRoot = this.GetRootProjectFolder();
-            string testImage = Path.GetFullPath(Path.Combine(projectRoot, @"Tests\NUnit\Layer\Utility\visualize_background.png"));
+
+            string testImage = Path.Combine(new string[] { "Tests", "NUnit", "Layer", "Utility", "visualize_background.png" });
+            testImage = Path.GetFullPath(Path.Combine(projectRoot, testImage));
+
 
             MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode(new int[] { 0, 1, 0, 1, 0, 1 }));
             DirectionalNodeVisualize vis = new DirectionalNodeVisualize(mapLayer.DirectionLayer.directionalNodes, 10);
@@ -100,7 +106,7 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
 
             while (!this.IsProjectRoot(cwd))
             {
-                cwd = Path.GetFullPath(Path.Combine(cwd, @"..\"));
+                cwd = Directory.GetParent(cwd).FullName;
             }
 
             return cwd;
