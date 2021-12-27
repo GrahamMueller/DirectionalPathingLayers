@@ -8,6 +8,7 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
     {
         bool updateFiles = false;
 
+        [Platform("Win", Reason = "Only runs on Windows because of drawing module ")]
         [Test]
         public void Test_Tiles()
         {
@@ -44,6 +45,7 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
 
 
         //Set other directions to empty, set working direction to color, test for color
+        [Platform("Win", Reason = "Only runs on Windows because of drawing module ")]
         [Test]
         public void Test_Directions()
         {
@@ -68,6 +70,7 @@ namespace DirectionalPathingLayers.Tests.NUnit.Layer.Utility
 
 
         //Set background tiles
+        [Platform("Win", Reason = "Only runs on Windows because of drawing module ")]
         [Test]
         public void Test_Background()
         {
