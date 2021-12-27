@@ -97,7 +97,7 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             throw new ArgumentException("setValue size invalid");
         }
-        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
         {
             throw new ArgumentException("directionIndex index invalid");
         }
@@ -107,7 +107,7 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                this.directionalNodes[x, y].directions[directionIndex] = setValue[x, y];
+                this.directionalNodes[x, y].Directions[directionIndex] = setValue[x, y];
             }
         }
     }
@@ -119,7 +119,7 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             throw new ArgumentException("setValue size invalid");
         }
-        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
         {
             throw new ArgumentException("directionIndex index invalid");
         }
@@ -129,14 +129,14 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                this.directionalNodes[x, y].directions[directionIndex] = setValue[x, y] ? 1 : 0;
+                this.directionalNodes[x, y].Directions[directionIndex] = setValue[x, y] ? 1 : 0;
             }
         }
     }
 
     public bool[,] Get_bools(int directionIndex)
     {
-        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
         {
             throw new ArgumentException("directionIndex index invalid");
         }
@@ -145,7 +145,7 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                boolArr[x, y] = this.directionalNodes[x, y].directions[directionIndex] != 0 ? true : false;
+                boolArr[x, y] = this.directionalNodes[x, y].Directions[directionIndex] != 0 ? true : false;
             }
         }
         return boolArr;
@@ -153,7 +153,7 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
 
     public int[,] Get_ints(int directionIndex)
     {
-        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].directions.Length)
+        if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
         {
             throw new ArgumentException("directionIndex index invalid");
         }
@@ -162,7 +162,7 @@ public class DirectionalLayer : IEquatable<DirectionalLayer>
         {
             for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
             {
-                intArr[x, y] = this.directionalNodes[x, y].directions[directionIndex];
+                intArr[x, y] = this.directionalNodes[x, y].Directions[directionIndex];
             }
         }
         return intArr;

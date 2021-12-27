@@ -119,4 +119,18 @@ public class test_DirectionalNode
         testNode -= node_alt55;
         Assert.IsTrue(new DirectionalNode(0).Equals(testNode));
     }
+
+    [Test]
+    public void Test_DirectionNames()
+    {
+        int[] expectedValues = new int[6] { 1, 2, 3, 4, 5, 6 };
+        DirectionalNode testNode = new DirectionalNode(expectedValues);
+
+        Assert.AreEqual(testNode.Forward, expectedValues[0]);
+        Assert.AreEqual(testNode.Backward, expectedValues[1]);
+        Assert.AreEqual(testNode.Left, expectedValues[2]);
+        Assert.AreEqual(testNode.Right, expectedValues[3]);
+        Assert.AreEqual(testNode.Up, expectedValues[4]);
+        Assert.AreEqual(testNode.Down, expectedValues[5]);
+    }
 }

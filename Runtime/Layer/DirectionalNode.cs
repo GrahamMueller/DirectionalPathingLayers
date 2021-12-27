@@ -6,9 +6,17 @@
 /// </summary>
 public class DirectionalNode : ICloneable, IEquatable<DirectionalNode>
 {
-    public int[] directions;
 
+    /// <summary> Array of directions, in a forward, backward, left, right, up, down format. </summary>
+    public int[] Directions { get => this.directions; set => this.directions = value; }
+    int[] directions;
 
+    public int Forward { get => this.directions[0]; }
+    public int Backward { get => this.directions[1]; }
+    public int Left { get => this.directions[2]; }
+    public int Right { get => this.directions[3]; }
+    public int Up { get => this.directions[4]; }
+    public int Down { get => this.directions[5]; }
     public DirectionalNode()
     {
         this.directions = new int[2 + 2 + 2];
