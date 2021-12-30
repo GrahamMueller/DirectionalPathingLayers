@@ -109,7 +109,7 @@ namespace DirectionalPathingLayers
                     {
                         for (int y_block = 0; y_block < this.tileSize; ++y_block)
                         {
-                            bitmap.SetPixel(x * this.tileSize + x_block, y * this.tileSize + y_block, this.backgroundTileColor[x, y]);
+                            bitmap.SetPixel(x * this.tileSize + x_block, (this.backgroundTileColor.GetLength(1) - 1 - y) * this.tileSize + y_block, this.backgroundTileColor[x, y]);
                         }
                     }
                 }
