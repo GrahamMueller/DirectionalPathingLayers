@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace DirectionalPathingLayers
 {
-    class DirectionalNodeVisualize
+    public class DirectionalNodeVisualize
     {
 
         Color[] directionalNodeColors;
