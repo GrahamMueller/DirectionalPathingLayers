@@ -12,7 +12,7 @@ namespace DirectionalPathingLayers.Tests.Profiling_Tests
         [Test]
         public void test_Directions()
         {
-            simpleNode = new DirectionalNode();
+            simpleNode = new DirectionalNode(0);
             dummyInt = 0;
             profile_Benchmark.Benchmark(this.profile_Directions, 100000000);
         }
@@ -38,7 +38,7 @@ namespace DirectionalPathingLayers.Tests.Profiling_Tests
         }
         public void profile_Constructor()
         {
-            profile_DirectionalNode.simpleNode = new DirectionalNode();
+            profile_DirectionalNode.simpleNode = new DirectionalNode(0);
         }
 
 
@@ -46,7 +46,7 @@ namespace DirectionalPathingLayers.Tests.Profiling_Tests
         public void test_AddSub()
         {
             dummyInt = 0;
-            profile_DirectionalNode.simpleNode = new DirectionalNode();
+            profile_DirectionalNode.simpleNode = new DirectionalNode(0);
             profile_Benchmark.Benchmark(this.profile_AddSub, 10000000);
         }
         public void profile_AddSub()

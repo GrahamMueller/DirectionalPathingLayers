@@ -18,7 +18,7 @@ namespace DirectionalPathingLayers.Tests
             string testImage_10 = Path.Combine(new string[] { "Tests", "NUnit", "Layer", "Utility", "visualize_tiles_10.png" });
             testImage_10 = Path.GetFullPath(Path.Combine(projectRoot, testImage_10));
 
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode( 1, 1, 1, 1, 1, 1 ));
             DirectionalNodeVisualize vis = new DirectionalNodeVisualize(mapLayer.DirectionLayer.directionalNodes, 5);
             if (this.updateFiles)
             {
@@ -54,7 +54,7 @@ namespace DirectionalPathingLayers.Tests
             testImage = Path.GetFullPath(Path.Combine(projectRoot, testImage));
 
 
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode( 1, 1, 1, 1, 1, 1 ));
             Color[] lineColors = new Color[6] { Color.Black, Color.White, Color.Red, Color.Blue, Color.Teal, Color.Aqua };
             DirectionalNodeVisualize vis = new DirectionalNodeVisualize(mapLayer.DirectionLayer.directionalNodes, 10, Color.Orange, lineColors);
             if (this.updateFiles)
@@ -80,7 +80,7 @@ namespace DirectionalPathingLayers.Tests
             testImage = Path.GetFullPath(Path.Combine(projectRoot, testImage));
 
 
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode(new int[] { 0, 1, 0, 1, 0, 1 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(6, 6, new DirectionalNode( 0, 1, 0, 1, 0, 1 ));
             DirectionalNodeVisualize vis = new DirectionalNodeVisualize(mapLayer.DirectionLayer.directionalNodes, 10);
 
             for (int x = 0; x < mapLayer.DirectionLayer.directionalNodes.GetLength(0); x+=2)

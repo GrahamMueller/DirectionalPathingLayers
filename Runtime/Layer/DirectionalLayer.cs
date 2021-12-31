@@ -20,7 +20,7 @@ namespace DirectionalPathingLayers
             {
                 for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
                 {
-                    this.directionalNodes[x, y] = new DirectionalNode();
+                    this.directionalNodes[x, y] = new DirectionalNode(0);
                 }
             }
         }
@@ -33,17 +33,6 @@ namespace DirectionalPathingLayers
             if ((preNodes.GetLength(1) - 1) / 2 != perSideLength) { throw new ArgumentException("Input nodes do not match in size"); }
 
             this.directionalNodes = preNodes;
-        }
-
-        public void Set(bool setValue)
-        {
-            for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
-            {
-                for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
-                {
-                    this.directionalNodes[x, y] = new DirectionalNode(setValue);
-                }
-            }
         }
 
         public void Set(int setValue)
@@ -256,7 +245,7 @@ namespace DirectionalPathingLayers
                 x >= this.directionalNodes.GetLength(0) ||
                 y >= this.directionalNodes.GetLength(1))
             {
-                return null;
+                return new DirectionalNode(-1) ;
             }
 
             return this.directionalNodes[x, y];
@@ -375,6 +364,9 @@ namespace DirectionalPathingLayers
 
                     int right_index_x = x + right.GetSideWidth();
                     int right_index_y = y + right.GetSideLength();
+
+                    DirectionalNode a = left.directionalNodes[left_index_x, left_index_y];
+                    DirectionalNode b = right.directionalNodes[right_index_x, right_index_y];
 
                     nodes[new_index_x, new_index_y] = left.directionalNodes[left_index_x, left_index_y] & right.directionalNodes[right_index_x, right_index_y];
                 }

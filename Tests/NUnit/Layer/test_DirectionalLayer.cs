@@ -17,23 +17,23 @@ namespace DirectionalPathingLayers.Tests
         public void Test_Resize()
         {
             DirectionalLayer centerPoint = new DirectionalLayer(0, 0);
-            centerPoint.Set(true);
+            centerPoint.Set(1);
 
             centerPoint.Resize(1, 1);
-            Assert.IsTrue(centerPoint.directionalNodes[0, 0].Equals(new DirectionalNode(false)));
-            Assert.IsTrue(centerPoint.directionalNodes[1, 1].Equals(new DirectionalNode(true)));
-            Assert.IsTrue(centerPoint.directionalNodes[2, 2].Equals(new DirectionalNode(false)));
+            Assert.IsTrue(centerPoint.directionalNodes[0, 0].Equals(new DirectionalNode(0)));
+            Assert.IsTrue(centerPoint.directionalNodes[1, 1].Equals(new DirectionalNode(1)));
+            Assert.IsTrue(centerPoint.directionalNodes[2, 2].Equals(new DirectionalNode(0)));
         }
 
         [Test]
         public void Test_And()
         {
             DirectionalLayer allTrue = new DirectionalLayer(5, 5);
-            allTrue.Set(true);
+            allTrue.Set(1);
             DirectionalLayer allTrue_tall = new DirectionalLayer(5, 10);
-            allTrue_tall.Set(true);
+            allTrue_tall.Set(1);
             DirectionalLayer allTrue_wide = new DirectionalLayer(10, 5);
-            allTrue_wide.Set(true);
+            allTrue_wide.Set(1);
 
             DirectionalLayer allFalse = new DirectionalLayer(5, 5);
 
@@ -53,11 +53,11 @@ namespace DirectionalPathingLayers.Tests
         public void Test_Or()
         {
             DirectionalLayer allTrue = new DirectionalLayer(5, 5);
-            allTrue.Set(true);
+            allTrue.Set(1);
             DirectionalLayer allTrue_alt = new DirectionalLayer(5, 5);
-            allTrue_alt.Set(true);
+            allTrue_alt.Set(1);
             DirectionalLayer allTrue_size = new DirectionalLayer(3, 3);
-            allTrue_size.Set(true);
+            allTrue_size.Set(1);
             DirectionalLayer allFalse = new DirectionalLayer(5, 5);
 
             //Same Size 
@@ -75,19 +75,19 @@ namespace DirectionalPathingLayers.Tests
         {
             DirectionalLayer false_square = new DirectionalLayer(5, 5);
             DirectionalLayer true_square = new DirectionalLayer(5, 5);
-            true_square.Set(true);
+            true_square.Set(1);
 
             DirectionalLayer true_tall = new DirectionalLayer(5, 10);
-            true_tall.Set(true);
+            true_tall.Set(1);
 
             DirectionalLayer false_wide = new DirectionalLayer(10, 5);
             DirectionalLayer true_wide = new DirectionalLayer(10, 5);
-            true_wide.Set(true);
+            true_wide.Set(1);
 
             DirectionalLayer false_big = new DirectionalLayer(10, 10);
 
             DirectionalLayer true_big = new DirectionalLayer(10, 10);
-            true_big.Set(true);
+            true_big.Set(1);
 
             DirectionalLayer testLayer;
 
@@ -99,17 +99,17 @@ namespace DirectionalPathingLayers.Tests
 
             //Test partial tall
             testLayer = false_wide | true_tall;
-            Assert.IsTrue(testLayer.directionalNodes[0, 10].Equals(new DirectionalNode(false)));//Is center left node false?
-            Assert.IsTrue(testLayer.directionalNodes[10, 10].Equals(new DirectionalNode(true)));//Is centernode true?
-            Assert.IsTrue(testLayer.directionalNodes[20, 10].Equals(new DirectionalNode(false)));//Is center right node false?
-            Assert.IsTrue(testLayer.directionalNodes[10, 20].Equals(new DirectionalNode(true)));//Is center top node true?
+            Assert.IsTrue(testLayer.directionalNodes[0, 10].Equals(new DirectionalNode(0)));//Is center left node false?
+            Assert.IsTrue(testLayer.directionalNodes[10, 10].Equals(new DirectionalNode(1)));//Is centernode true?
+            Assert.IsTrue(testLayer.directionalNodes[20, 10].Equals(new DirectionalNode(0)));//Is center right node false?
+            Assert.IsTrue(testLayer.directionalNodes[10, 20].Equals(new DirectionalNode(1)));//Is center top node true?
 
             //Test partial tall
             testLayer = true_tall | false_wide;
-            Assert.IsTrue(testLayer.directionalNodes[0, 10].Equals(new DirectionalNode(false)));//Is center left node false?
-            Assert.IsTrue(testLayer.directionalNodes[10, 10].Equals(new DirectionalNode(true)));//Is centernode true?
-            Assert.IsTrue(testLayer.directionalNodes[20, 10].Equals(new DirectionalNode(false)));//Is center right node false?
-            Assert.IsTrue(testLayer.directionalNodes[10, 20].Equals(new DirectionalNode(true)));//Is center top node true?
+            Assert.IsTrue(testLayer.directionalNodes[0, 10].Equals(new DirectionalNode(0)));//Is center left node false?
+            Assert.IsTrue(testLayer.directionalNodes[10, 10].Equals(new DirectionalNode(1)));//Is centernode true?
+            Assert.IsTrue(testLayer.directionalNodes[20, 10].Equals(new DirectionalNode(0)));//Is center right node false?
+            Assert.IsTrue(testLayer.directionalNodes[10, 20].Equals(new DirectionalNode(1)));//Is center top node true?
         }
 
 
@@ -117,11 +117,11 @@ namespace DirectionalPathingLayers.Tests
         public void Test_Equals()
         {
             DirectionalLayer allTrue = new DirectionalLayer(5, 5);
-            allTrue.Set(true);
+            allTrue.Set(1);
             DirectionalLayer allTrue_alt = new DirectionalLayer(5, 5);
-            allTrue_alt.Set(true);
+            allTrue_alt.Set(1);
             DirectionalLayer allTrue_size = new DirectionalLayer(3, 3);
-            allTrue_size.Set(true);
+            allTrue_size.Set(1);
             DirectionalLayer allFalse = new DirectionalLayer(5, 5);
 
             //Test ==
@@ -147,7 +147,7 @@ namespace DirectionalPathingLayers.Tests
         public void Test_Invert()
         {
             DirectionalLayer allTrue = new DirectionalLayer(5, 5);
-            allTrue.Set(true);
+            allTrue.Set(1);
             DirectionalLayer allFalse = new DirectionalLayer(5, 5);
 
             //Test ~
@@ -165,13 +165,13 @@ namespace DirectionalPathingLayers.Tests
 
             DirectionalLayer allTrue_00 = new DirectionalLayer(0, 0);
             DirectionalLayer layer_22 = new DirectionalLayer(2, 2);
-            allTrue.Set(true);
-            allTrue_34.Set(true);
-            allTrue_00.Set(true);
+            allTrue.Set(1);
+            allTrue_34.Set(1);
+            allTrue_00.Set(1);
 
             //Special layer to test offset.
-            layer_22.Set(true);
-            layer_22.directionalNodes[0, 0] = new DirectionalNode(false);
+            layer_22.Set(1);
+            layer_22.directionalNodes[0, 0] = new DirectionalNode(0);
 
             DirectionalLayer sliceLayer = allTrue.GetSlice(0, 0, 5, 5);
             Assert.IsTrue(allTrue.Equals(sliceLayer));
@@ -184,9 +184,9 @@ namespace DirectionalPathingLayers.Tests
 
             //Test offset : 
             DirectionalLayer allTrue_11 = new DirectionalLayer(1, 1);
-            allTrue_11.Set(true);
+            allTrue_11.Set(1);
             sliceLayer = layer_22.GetSlice(-1, -1, 1, 1);
-            Assert.IsTrue(sliceLayer.directionalNodes[0, 0].Equals(new DirectionalNode(false)));
+            Assert.IsTrue(sliceLayer.directionalNodes[0, 0].Equals(new DirectionalNode(0)));
 
             sliceLayer = layer_22.GetSlice(0, -1, 1, 1);
             Assert.IsTrue(sliceLayer.Equals(allTrue_11));

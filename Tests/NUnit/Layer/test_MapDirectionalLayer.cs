@@ -9,7 +9,7 @@ namespace DirectionalPathingLayers.Tests
         [Test]
         public void SimpleAdd()
         {
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(1, 1, 1, 1, 1, 1));
 
             //Create layer with alternating 1 and 0 spreading from 0.
             DirectionalLayer addingLayer = new DirectionalLayer(2, 2);
@@ -28,7 +28,7 @@ namespace DirectionalPathingLayers.Tests
         [Test]
         public void SimpleAddSub_offset()
         {
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 1, 1, 1, 1, 1, 1 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(1, 1, 1, 1, 1, 1));
 
             //Create layer with alternating 1 and 0 spreading from 0.
             DirectionalLayer addingLayer = new DirectionalLayer(2, 2);
@@ -55,7 +55,7 @@ namespace DirectionalPathingLayers.Tests
         [Test]
         public void SimpleAddSub_cost()
         {
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(0, 0, 0, 0, 0, 0));
 
             //Create layer with alternating 1 and 0 spreading from 0.
             DirectionalLayer addingLayer = new DirectionalLayer(0, 0);
@@ -95,7 +95,7 @@ namespace DirectionalPathingLayers.Tests
         [Test]
         public void Test_LargeAddRemove()
         {
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(50, 50, new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(50, 50, new DirectionalNode(0, 0, 0, 0, 0, 0));
 
             //Add a large number of points randomly around.  Some of these will exist entirely outside the map.
             List<DirectionalLayerTestType> addedLayersList = new List<DirectionalLayerTestType>();
@@ -107,7 +107,7 @@ namespace DirectionalPathingLayers.Tests
                 newTestLayer.centerX = rand.Next(-mapLayer.DirectionLayer.GetSideWidth() - 20, mapLayer.DirectionLayer.GetSideWidth() + 20);
                 newTestLayer.centerY = rand.Next(-mapLayer.DirectionLayer.GetSideLength() - 20, mapLayer.DirectionLayer.GetSideLength() + 20);
                 newTestLayer.layer = new DirectionalLayer(rand.Next(0, 10), rand.Next(0, 10));
-                newTestLayer.layer.Set(new DirectionalNode(new int[] { rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2) }));
+                newTestLayer.layer.Set(new DirectionalNode(rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2), rand.Next(0, 2) ));
                 addedLayersList.Add(newTestLayer);
                 mapLayer.AddDirectionalLayerAtPoint(newTestLayer.layer, newTestLayer.centerX, newTestLayer.centerY);
             }
@@ -132,7 +132,7 @@ namespace DirectionalPathingLayers.Tests
         [Test]
         public void Test_IsIndexPointInLayer(int indexX, int indexY, bool expected_result)
         {
-            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode(new int[] { 0, 0, 0, 0, 0, 0 }));
+            MapDirectionalLayer mapLayer = new MapDirectionalLayer(5, 5, new DirectionalNode( 0, 0, 0, 0, 0, 0));
             Assert.AreEqual(mapLayer.IsIndexPointInLayer(indexX, indexY), expected_result);
         }
     }
