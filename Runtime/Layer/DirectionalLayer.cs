@@ -74,55 +74,6 @@ namespace DirectionalPathingLayers
             }
         }
 
-        /// <summary>
-        /// Sets all values in direction index to value set in setValue.
-        /// This is used to set a single axis.
-        /// </summary>
-        /// <param name="directionIndex"></param>
-        /// <param name="setValue"></param>
-        public void Set(int directionIndex, int[,] setValue)
-        {
-            if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
-                setValue.GetLength(1) != this.directionalNodes.GetLength(1))
-            {
-                throw new ArgumentException("setValue size invalid");
-            }
-            if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
-            {
-                throw new ArgumentException("directionIndex index invalid");
-            }
-
-            //Set nodes
-            for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
-            {
-                for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
-                {
-                    this.directionalNodes[x, y].Directions[directionIndex] = setValue[x, y];
-                }
-            }
-        }
-
-        public void Set(int directionIndex, bool[,] setValue)
-        {
-            if (setValue.GetLength(0) != this.directionalNodes.GetLength(0) ||
-                setValue.GetLength(1) != this.directionalNodes.GetLength(1))
-            {
-                throw new ArgumentException("setValue size invalid");
-            }
-            if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
-            {
-                throw new ArgumentException("directionIndex index invalid");
-            }
-
-            //Set nodes
-            for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
-            {
-                for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
-                {
-                    this.directionalNodes[x, y].Directions[directionIndex] = setValue[x, y] ? 1 : 0;
-                }
-            }
-        }
 
         public bool[,] Get_bools(int directionIndex)
         {

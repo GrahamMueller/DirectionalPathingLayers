@@ -9,8 +9,9 @@ namespace DirectionalPathingLayers
     {
 
         /// <summary> Array of directions, in a forward, backward, left, right, up, down format. </summary>
-        public int[] Directions { get => this.directions; }
-        int[] directions;
+        
+        public SByte[] Directions { get => this.directions; }
+        SByte[] directions;
 
         public enum directionEnum : int
         {
@@ -21,41 +22,41 @@ namespace DirectionalPathingLayers
             up = 4,
             down = 5
         };
-        public int Forward { get => this.directions[(int)directionEnum.forward]; }
-        public int Backward { get => this.directions[(int)directionEnum.backward]; }
-        public int Left { get => this.directions[(int)directionEnum.left]; }
-        public int Right { get => this.directions[(int)directionEnum.right]; }
-        public int Up { get => this.directions[(int)directionEnum.up]; }
-        public int Down { get => this.directions[(int)directionEnum.down]; }
+        public SByte Forward { get => this.directions[(int)directionEnum.forward]; }
+        public SByte Backward { get => this.directions[(int)directionEnum.backward]; }
+        public SByte Left { get => this.directions[(int)directionEnum.left]; }
+        public SByte Right { get => this.directions[(int)directionEnum.right]; }
+        public SByte Up { get => this.directions[(int)directionEnum.up]; }
+        public SByte Down { get => this.directions[(int)directionEnum.down]; }
 
         public DirectionalNode(int initialValue)
         {
-            this.directions = new int[6];
+            this.directions = new SByte[6];
             this.Set(initialValue);
         }
 
 
         public DirectionalNode(DirectionalNode initialNode)
         {
-            this.directions = new int[6];
+            this.directions = new SByte[6];
             for (int i = 0; i < this.directions.Length; ++i) { this.directions[i] = initialNode.directions[i]; }
         }
 
 
         public DirectionalNode(int forward, int backward, int left, int right, int up, int down)
         {
-            this.directions = new int[6];
-            this.directions[(int)directionEnum.forward] = forward;
-            this.directions[(int)directionEnum.backward] = backward;
-            this.directions[(int)directionEnum.left] = left;
-            this.directions[(int)directionEnum.right] = right;
-            this.directions[(int)directionEnum.up] = up;
-            this.directions[(int)directionEnum.down] = down;
+            this.directions = new SByte[6];
+            this.directions[(int)directionEnum.forward] = (SByte)forward;
+            this.directions[(int)directionEnum.backward] = (SByte)backward;
+            this.directions[(int)directionEnum.left] = (SByte)left;
+            this.directions[(int)directionEnum.right] = (SByte)right;
+            this.directions[(int)directionEnum.up] = (SByte)up;
+            this.directions[(int)directionEnum.down] = (SByte)down;
         }
 
         void Set(int setValue)
         {
-            Array.Fill<int>(this.directions, setValue);
+            Array.Fill<SByte>(this.directions, (SByte)setValue);
         }
 
 
@@ -71,7 +72,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < left.directions.Length; ++i)
             {
-                newNode.directions[i] = (left.directions[i] != 0 && right.directions[i] != 0) ? 1 : 0;
+                newNode.directions[i] = (SByte)((left.directions[i] != 0 && right.directions[i] != 0) ? 1 : 0);
             }
             return newNode;
         }
@@ -89,7 +90,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < left.directions.Length; ++i)
             {
-                newNode.directions[i] = (left.directions[i] != 0 || right.directions[i] != 0) ? 1 : 0;
+                newNode.directions[i] = (SByte)((left.directions[i] != 0 || right.directions[i] != 0) ? 1 : 0);
             }
             return newNode;
         }
@@ -106,7 +107,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < left.directions.Length; ++i)
             {
-                newNode.directions[i] = left.directions[i] + right.directions[i];
+                newNode.directions[i] = (SByte)(left.directions[i] + right.directions[i]);
             }
             return newNode;
         }
@@ -123,7 +124,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < left.directions.Length; ++i)
             {
-                newNode.directions[i] = left.directions[i] - right.directions[i];
+                newNode.directions[i] = (SByte)(left.directions[i] - right.directions[i]);
             }
             return newNode;
         }
@@ -140,7 +141,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < left.directions.Length; ++i)
             {
-                newNode.directions[i] = left.directions[i] * right.directions[i];
+                newNode.directions[i] = (SByte)(left.directions[i] * right.directions[i]);
             }
             return newNode;
         }
@@ -150,7 +151,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < right.directions.Length; ++i)
             {
-                newNode.directions[i] = left * right.directions[i];
+                newNode.directions[i] = (SByte)(left * right.directions[i]);
             }
             return newNode;
         }
@@ -168,8 +169,8 @@ namespace DirectionalPathingLayers
             for (int i = 0; i < left.directions.Length; ++i)
             {
                 //If left is 0 but not right, OR left is not 0 but right is, it's XOR
-                newNode.directions[i] = ((left.directions[i] == 0 && right.directions[i] != 0) ||
-                                         (left.directions[i] != 0 && right.directions[i] == 0)) ? 1 : 0;
+                newNode.directions[i] = (SByte)(((left.directions[i] == 0 && right.directions[i] != 0) ||
+                                         (left.directions[i] != 0 && right.directions[i] == 0)) ? 1 : 0);
             }
             return newNode;
         }
@@ -186,7 +187,7 @@ namespace DirectionalPathingLayers
             DirectionalNode newNode = new DirectionalNode(0);
             for (int i = 0; i < node.directions.Length; ++i)
             {
-                newNode.directions[i] = node.directions[i] == 0 ? 1 : 0;
+                newNode.directions[i] = (SByte)(node.directions[i] == 0 ? 1 : 0);
             }
             return newNode;
         }
