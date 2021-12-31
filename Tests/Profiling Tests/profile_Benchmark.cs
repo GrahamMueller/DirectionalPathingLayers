@@ -60,7 +60,15 @@ namespace DirectionalPathingLayers.Tests.Profiling_Tests
 
             //String output
             string totalTime = sw.ElapsedMilliseconds.ToString();
+            string testName = act.Method.GetType().Namespace;
             string writeLine = $"{act.Method.Name} | #{iterations}, {totalTime} mS | {timePerRun} {timePerRunUnit}";
+
+            Console.WriteLine($"act.Method.GetBaseDefinition().Name {act.Method.GetBaseDefinition().Name}");
+            Console.WriteLine($"act.Method.GetType().Name {act.Method.GetType().Name}");
+            Console.WriteLine($"act.Method.GetType().FullName {act.Method.GetType().FullName}");
+            Console.WriteLine($"act.Method.GetType().Namespace {act.Method.GetType().Namespace}");
+
+
             Console.WriteLine(writeLine);
             if (writeToFile)
             {

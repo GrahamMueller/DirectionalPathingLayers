@@ -1,33 +1,41 @@
-﻿using System;
+﻿using NUnit.Framework;
 
-namespace DirectionalPathingLayers.Tests
+namespace DirectionalPathingLayers.Tests.Profiling_Tests
 {
-    class Profile_MapDirectionalLayer
+    class profile_MapDirectionalLayer
     {
-        static void SimpleRun()
+        static int dummyInt = 0; //By existing and being used in tests, we prevent optimizations removing test code.
+
+        static MapDirectionalLayer mapLayer; //Common layer to avoid constructing when not neccesary
+        static DirectionalLayer simpleLayer;
+        static DirectionalNode simpleNode;
+
+        [Test]
+        public void test_Constructor()
         {
-            //Create a layer with blank nodes.
-            MapDirectionalLayer mapDirectionalLayer = new MapDirectionalLayer(100, 100, new DirectionalNode(0));
+            dummyInt = 0;
+            simpleNode = new DirectionalNode(0);
+            profile_Benchmark.Benchmark(this.profile_Constructor, 100000);
+        }
+        public void profile_Constructor()
+        {
+            profile_MapDirectionalLayer.mapLayer = new MapDirectionalLayer(10, 10, simpleNode);
+        }
 
-            //Create a layer filled with 1s
-            DirectionalLayer directionalLayer = new DirectionalLayer(5, 5);
-            directionalLayer.Set(1);
-
-            for (int i = 0; i < 10000; ++i)
-            {
-                mapDirectionalLayer.AddDirectionalLayerAtPoint(directionalLayer, 0, 0);
-            }
-
-            for (int i = 0; i < 10000; ++i)
-            {
-                mapDirectionalLayer.AddDirectionalLayerAtPoint(-1 * directionalLayer, 0, 0);
-            }
-
-            for (int i = 0; i < 10000; ++i)
-            {
-                mapDirectionalLayer.AddDirectionalLayerAtPoint(directionalLayer, 0, 0);
-                mapDirectionalLayer.AddDirectionalLayerAtPoint(-1 * directionalLayer, 0, 0);
-            }
+        [Test]
+        public void test_AddLayer()
+        {
+            dummyInt = 0;
+            simpleNode = new DirectionalNode(0);
+            simpleLayer = new DirectionalLayer(3, 3);
+            mapLayer = new MapDirectionalLayer(10, 10, simpleNode);
+            profile_Benchmark.Benchmark(this.profile_AddLayer, 100000);
+        }
+        public void profile_AddLayer()
+        {
+            profile_MapDirectionalLayer.mapLayer.AddDirectionalLayerAtPoint(simpleLayer, 0, 0);
         }
     }
+
+
 }

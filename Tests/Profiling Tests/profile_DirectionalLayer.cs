@@ -6,39 +6,91 @@ namespace DirectionalPathingLayers.Tests.Profiling_Tests
     {
         static int dummyInt = 0; //By existing and being used in tests, we prevent optimizations removing test code.
 
-        static DirectionalNode simpleNode; //Common node to avoid constructing when not neccesary
+        static DirectionalLayer simpleLayer; //Common layer to avoid constructing when not neccesary
 
-        //Test speed of direction access
-        [Test]
-        public void test_Directions()
-        {
-            simpleNode = new DirectionalNode();
-            dummyInt = 0;
-            profile_Benchmark.Benchmark(this.profile_Directions, 100000000);
-        }
-        public void profile_Directions()
-        {
-            if (profile_DirectionalLayer.simpleNode.Forward == 0 &&
-                profile_DirectionalLayer.simpleNode.Backward == 0 &&
-                profile_DirectionalLayer.simpleNode.Left == 0 &&
-                profile_DirectionalLayer.simpleNode.Right == 0 &&
-                profile_DirectionalLayer.simpleNode.Up == 0 &&
-                profile_DirectionalLayer.simpleNode.Down == 0)
-            {
-                dummyInt++;
-            }
-        }
-
-        //Test speed of construction
         [Test]
         public void test_Constructor()
         {
             dummyInt = 0;
-            profile_Benchmark.Benchmark(this.profile_Constructor, 100000000);
+            profile_Benchmark.Benchmark(this.profile_Constructor, 100000);
         }
         public void profile_Constructor()
         {
-            profile_DirectionalLayer.simpleNode = new DirectionalNode();
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+        }
+
+
+        [Test]
+        public void test_Set()
+        {
+            dummyInt = 0;
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+            profile_Benchmark.Benchmark(this.profile_Set, 100000);
+        }
+        public void profile_Set()
+        {
+            profile_DirectionalLayer.simpleLayer.Set(1);
+        }
+
+
+        [Test]
+        public void test_And()
+        {
+            dummyInt = 0;
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+            profile_Benchmark.Benchmark(this.profile_And, 100000);
+        }
+        public void profile_And()
+        {
+            profile_DirectionalLayer.simpleLayer = profile_DirectionalLayer.simpleLayer & profile_DirectionalLayer.simpleLayer;
+        }
+
+        [Test]
+        public void test_XOR()
+        {
+            dummyInt = 0;
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+            profile_Benchmark.Benchmark(this.profile_XOR, 100000);
+        }
+        public void profile_XOR()
+        {
+            profile_DirectionalLayer.simpleLayer = profile_DirectionalLayer.simpleLayer ^ profile_DirectionalLayer.simpleLayer;
+        }
+
+        [Test]
+        public void test_OR()
+        {
+            dummyInt = 0;
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+            profile_Benchmark.Benchmark(this.profile_OR, 100000);
+        }
+        public void profile_OR()
+        {
+            profile_DirectionalLayer.simpleLayer = profile_DirectionalLayer.simpleLayer | profile_DirectionalLayer.simpleLayer;
+        }
+
+        [Test]
+        public void test_MULT()
+        {
+            dummyInt = 0;
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+            profile_Benchmark.Benchmark(this.profile_MULT, 100000);
+        }
+        public void profile_MULT()
+        {
+            profile_DirectionalLayer.simpleLayer = profile_DirectionalLayer.simpleLayer * profile_DirectionalLayer.simpleLayer;
+        }
+
+        [Test]
+        public void test_INVERT()
+        {
+            dummyInt = 0;
+            profile_DirectionalLayer.simpleLayer = new DirectionalLayer(10, 10);
+            profile_Benchmark.Benchmark(this.profile_INVERT, 100000);
+        }
+        public void profile_INVERT()
+        {
+            profile_DirectionalLayer.simpleLayer = ~profile_DirectionalLayer.simpleLayer;
         }
     }
 
