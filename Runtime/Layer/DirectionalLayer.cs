@@ -75,23 +75,6 @@ namespace DirectionalPathingLayers
         }
 
 
-        public bool[,] Get_bools(int directionIndex)
-        {
-            if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
-            {
-                throw new ArgumentException("directionIndex index invalid");
-            }
-            bool[,] boolArr = new bool[this.directionalNodes.GetLength(0), this.directionalNodes.GetLength(1)];
-            for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
-            {
-                for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
-                {
-                    boolArr[x, y] = this.directionalNodes[x, y].Directions[directionIndex] != 0 ? true : false;
-                }
-            }
-            return boolArr;
-        }
-
         public int[,] Get_ints(int directionIndex)
         {
             if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Drawing;
-//Add 'multiply block'
-
-//Set background base per tile (this tile is red, this tile is blue)
-//  Color background!
-//  Set background tile!
 
 namespace DirectionalPathingLayers
 {
@@ -13,35 +8,16 @@ namespace DirectionalPathingLayers
 
         Color[] directionalNodeColors;
 
-        //Bitmap bitmap;
-
         int tileSize;
 
         Color[,] backgroundTileColor;
         Color[,] foregroundColors;
-        /// <summary>
-        /// 
-        /// </summary>
+
         public void SetBackgroundTileColor(int indexX, int indexY, Color setColor)
         {
             this.backgroundTileColor[indexX, indexY] = setColor;
         }
 
-        //public DirectionalNodeVisualize(DirectionalNodes[,] nodes, int tileSize)
-        //{
-        //    this.tileSize = tileSize;
-
-        //    this.directionalNodeColors = new Color[6] { Color.Red, Color.Red, Color.Green, Color.Green, Color.Blue, Color.Blue };
-
-        //    this.backgroundTileColor = new Color[tileSize, tileSize];
-        //    for (int x = 0; x < this.backgroundTileColor.GetLength(0); ++x)
-        //    {
-        //        for (int y = 0; y < this.backgroundTileColor.GetLength(1); ++y)
-        //        {
-        //            this.SetBackgroundTileColor(x, y, Color.White);
-        //        }
-        //    }
-        //}
 
         public DirectionalNodeVisualize(DirectionalNode[,] nodes, int tileSize, Color backgroundColor, Color[] directionColors)
         {
@@ -217,14 +193,7 @@ namespace DirectionalPathingLayers
             {
                 int currentX = startX + (int)(dirWidth * i / pointIterations);
                 int currentY = startY + (int)(dirHeight * i / pointIterations);
-                if (currentX >= this.foregroundColors.GetLength(0))
-                {
-                    ;
-                }
-                if (currentY >= this.foregroundColors.GetLength(1))
-                {
-                    ;
-                }
+
                 this.foregroundColors[currentX, currentY] = lineColor;
             }
         }

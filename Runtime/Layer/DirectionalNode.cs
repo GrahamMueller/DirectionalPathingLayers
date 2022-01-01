@@ -9,7 +9,7 @@ namespace DirectionalPathingLayers
     {
 
         /// <summary> Array of directions, in a forward, backward, left, right, up, down format. </summary>
-        
+
         public SByte[] Directions { get => this.directions; }
         SByte[] directions;
 
