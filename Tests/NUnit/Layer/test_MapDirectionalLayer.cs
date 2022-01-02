@@ -4,7 +4,7 @@ using System;
 
 namespace DirectionalPathingLayers.Tests
 {
-    public class test_DirectionalPathingLayers
+    public class TestDirectionalPathingLayers
     {
         [Test]
         public void SimpleAdd()
@@ -81,7 +81,6 @@ namespace DirectionalPathingLayers.Tests
             Assert.IsTrue(slice.directionalNodes[0, 0].Equals(new DirectionalNode(1)));
 
             mapLayer.AddDirectionalLayerAtPoint(-1 * ~addingLayer, 0, 0);
-            slice = mapLayer.AddedCountLayer.GetSlice(0, 0, addingLayer.GetSideWidth(), addingLayer.GetSideLength());
             Assert.IsTrue(mapLayer.AddedCountLayer.Equals((new DirectionalLayer(5, 5))));
 
         }

@@ -2,7 +2,7 @@
 
 namespace DirectionalPathingLayers.Tests.Profiling_Tests
 {
-    class profile_MapDirectionalLayer
+    class ProfileMapDirectionalLayer
     {
         static int dummyInt = 0; //By existing and being used in tests, we prevent optimizations removing test code.
 
@@ -11,29 +11,29 @@ namespace DirectionalPathingLayers.Tests.Profiling_Tests
         static DirectionalNode simpleNode;
 
         [Test]
-        public void test_Constructor()
+        public void TestConstructor()
         {
             dummyInt = 0;
             simpleNode = new DirectionalNode(0);
-            profile_Benchmark.Benchmark(this.profile_Constructor, 100000);
+            profile_Benchmark.Benchmark(this.ProfileConstructor, 100000);
         }
-        public void profile_Constructor()
+        public void ProfileConstructor()
         {
-            profile_MapDirectionalLayer.mapLayer = new MapDirectionalLayer(10, 10, simpleNode);
+            ProfileMapDirectionalLayer.mapLayer = new MapDirectionalLayer(10, 10, simpleNode);
         }
 
         [Test]
-        public void test_AddLayer()
+        public void TestAddLayer()
         {
             dummyInt = 0;
             simpleNode = new DirectionalNode(0);
             simpleLayer = new DirectionalLayer(3, 3);
             mapLayer = new MapDirectionalLayer(10, 10, simpleNode);
-            profile_Benchmark.Benchmark(this.profile_AddLayer, 100000);
+            profile_Benchmark.Benchmark(this.ProfileAddLayer, 100000);
         }
-        public void profile_AddLayer()
+        public void ProfileAddLayer()
         {
-            profile_MapDirectionalLayer.mapLayer.AddDirectionalLayerAtPoint(simpleLayer, 0, 0);
+            ProfileMapDirectionalLayer.mapLayer.AddDirectionalLayerAtPoint(simpleLayer, 0, 0);
         }
     }
 

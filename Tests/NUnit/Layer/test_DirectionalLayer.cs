@@ -2,7 +2,7 @@
 
 namespace DirectionalPathingLayers.Tests
 {
-    public class test_DirectionalLayer
+    public class TestDirectionalLayer
     {
         [Test]
         public void Test_Constructors()
@@ -73,7 +73,6 @@ namespace DirectionalPathingLayers.Tests
         [Test]
         public void Test_Or_Missized()
         {
-            DirectionalLayer false_square = new DirectionalLayer(5, 5);
             DirectionalLayer true_square = new DirectionalLayer(5, 5);
             true_square.Set(1);
 
@@ -83,8 +82,6 @@ namespace DirectionalPathingLayers.Tests
             DirectionalLayer false_wide = new DirectionalLayer(10, 5);
             DirectionalLayer true_wide = new DirectionalLayer(10, 5);
             true_wide.Set(1);
-
-            DirectionalLayer false_big = new DirectionalLayer(10, 10);
 
             DirectionalLayer true_big = new DirectionalLayer(10, 10);
             true_big.Set(1);

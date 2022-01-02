@@ -4,9 +4,9 @@ using System.IO;
 
 namespace DirectionalPathingLayers.Tests
 {
-    class test_DirectionalNodeVisualize
+    class TestDirectionalNodeVisualize
     {
-        bool updateFiles = false;
+        readonly bool updateFiles = false;
 
         [Platform("Win", Reason = "Only runs on Windows because of drawing module ")]
         [Test]
