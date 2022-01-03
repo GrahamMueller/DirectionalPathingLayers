@@ -1,35 +1,36 @@
-name: Build and Test Net
+name: Build Net
 
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-        - 'README.md'
-        - 'LICENSE.txt'
+		paths-ignore:
+			- 'README.md'
+			- 'LICENSE.txt'
   pull_request:
     branches: [ main ]
-    paths-ignore:
-        - 'README.md'
-        - 'LICENSE.txt'
+	    paths-ignore:
+			- 'README.md'
+			- 'LICENSE.txt'
+
 jobs:
-    setup-version:
-        runs-on: ${{ matrix.operating-system }}
-        strategy:
-            fail-fast: false
-            matrix:
-                operating-system: [ubuntu-latest, windows-latest]
-            dotnet-version: ['2.1']
-        steps:
-            - uses: actions/checkout@v2
-                with:
-                    submodules: true
-            - name: Setup dotnet ${{ matrix.dotnet-version }}
-                uses: actions/setup-dotnet@v1
-                with:
-                  dotnet-version: ${{ matrix.dotnet-version }}
-            - name: Restore dependencies
-                run: dotnet restore
-            - name: Build
-                run: dotnet build DirectionalPathingLayers.csproj --no-restore
-            - name: Test
-                run: dotnet test DirectionalPathingLayers.csproj --no-build --verbosity normal  --logger "junit" --collect:"Xplat Code Coverage"
+  setup-version:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest]
+        dotnet-version: ['2.1']
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            submodules: true
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build DirectionalPathingLayers.csproj --no-restore
+      - name: Test
+        run: dotnet test DirectionalPathingLayers.csproj --no-build --verbosity normal  --logger "junit" --collect:"Xplat Code Coverage"
