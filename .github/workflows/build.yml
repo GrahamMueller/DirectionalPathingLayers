@@ -25,6 +25,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build DirectionalPathingLayers.csproj --no-restore -c Release
+        run: dotnet build DirectionalPathingLayers.csproj --no-restore
       - name: Test
         run: dotnet test DirectionalPathingLayers.csproj --no-build --verbosity normal  --logger "junit" --collect:"Xplat Code Coverage"
