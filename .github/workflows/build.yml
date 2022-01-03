@@ -12,13 +12,13 @@ on:
         - 'README.md'
         - 'LICENSE.txt'
 jobs:
-    build-test:
+    setup-version:
         runs-on: ${{ matrix.operating-system }}
         strategy:
             fail-fast: false
             matrix:
                 operating-system: [ubuntu-latest, windows-latest]
-                dotnet-version: ['2.1']
+            dotnet-version: ['2.1']
         steps:
             - uses: actions/checkout@v2
                 with:
