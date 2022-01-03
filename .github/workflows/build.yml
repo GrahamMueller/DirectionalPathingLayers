@@ -1,0 +1,31 @@
+name: Build Net
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  setup-version:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest]
+        dotnet-version: ['2.1']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: ./
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build DirectionalPathingLayers.csproj --no-restore -c Release
+      - name: Test
+        run: dotnet test DirectionalPathingLayers.csproj --no-build --verbosity normal  --logger "junit" --collect:"Xplat Code Coverage"
