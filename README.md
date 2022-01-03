@@ -1,4 +1,5 @@
 Linux build and test [![Build Net](https://github.com/GrahamMueller1992/DirectionalPathingLayers/actions/workflows/build.yml/badge.svg)](https://github.com/GrahamMueller1992/DirectionalPathingLayers/actions/workflows/build.yml)
+
 Windows build and test [![Build Net](https://github.com/GrahamMueller1992/DirectionalPathingLayers/actions/workflows/build.yml/badge.svg)](https://github.com/GrahamMueller1992/DirectionalPathingLayers/actions/workflows/build.yml)
 
 # DirectionalPathingLayers
