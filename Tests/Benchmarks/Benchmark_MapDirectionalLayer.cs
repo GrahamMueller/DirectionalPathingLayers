@@ -5,7 +5,7 @@ namespace DirectionalPathingLayers.Tests.Benchmarks
 {
     [ShortRunJob]
     [HtmlExporter]
-    [MemoryDiagnoser]
+    //[MemoryDiagnoser]
     [MarkdownExporterAttribute.GitHub]
     [Orderer(SummaryOrderPolicy.Method)]
     public class Benchmark_MapDirectionalLayer

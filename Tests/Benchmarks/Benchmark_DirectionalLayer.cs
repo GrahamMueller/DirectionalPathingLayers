@@ -4,7 +4,7 @@ namespace DirectionalPathingLayers.Tests.Benchmarks
 {
     [ShortRunJob]
     [HtmlExporter]
-    [MemoryDiagnoser]
+   // [MemoryDiagnoser]
     [MarkdownExporterAttribute.GitHub]
     public class Benchmark_DirectionalLayer
     {

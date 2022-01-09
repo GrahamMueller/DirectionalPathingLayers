@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Numerics;
 namespace DirectionalPathingLayers
 {
     /// <summary>
@@ -10,54 +10,123 @@ namespace DirectionalPathingLayers
 
         /// <summary> Array of directions, in a forward, backward, left, right, up, down format. </summary>
 
-        public SByte[] Directions { get => this.directions; }
-        SByte[] directions;
+        public Matrix3x2 Directions { get => this.directions; }
+        Matrix3x2 directions;
 
-        public enum directionEnum : int
+        public enum DirectionEnum
         {
-            forward = 0,
-            backward = 1,
-            left = 2,
-            right = 3,
-            up = 4,
-            down = 5
+            forward = 0, //M1,1
+            backward = 1,//M1,2
+            left = 2, //M2,1
+            right = 3, //M2,2
+            up = 4, //M3,1
+            down = 5 //M,2
         };
-        public SByte Forward { get => this.directions[(int)directionEnum.forward]; }
-        public SByte Backward { get => this.directions[(int)directionEnum.backward]; }
-        public SByte Left { get => this.directions[(int)directionEnum.left]; }
-        public SByte Right { get => this.directions[(int)directionEnum.right]; }
-        public SByte Up { get => this.directions[(int)directionEnum.up]; }
-        public SByte Down { get => this.directions[(int)directionEnum.down]; }
+
+        //Faster operations to get a single retrieved.
+        public Single sForward { get => this.directions.M11; }
+        public Single sBackward { get => this.directions.M12; }
+        public Single sLeft { get => this.directions.M21; }
+        public Single sRight { get => this.directions.M22; }
+        public Single sUp { get => this.directions.M31; }
+        public Single sDown { get => this.directions.M32; }
+
+        public int Forward { get => (int)this.sForward; }
+        public int Backward { get => (int)this.sBackward; }
+        public int Left { get => (int)this.sLeft; }
+        public int Right { get => (int)this.sRight; }
+        public int Up { get => (int)this.sUp; }
+        public int Down { get => (int)this.sDown; }
+
+        public int DirectionByIndex(int index)
+        {
+            switch (index)
+            {
+                case (int)DirectionEnum.forward:
+                    {
+                        return this.Forward;
+                    }
+                case (int)DirectionEnum.backward:
+                    {
+                        return this.Backward;
+                    }
+                case (int)DirectionEnum.left:
+                    {
+                        return this.Left;
+                    }
+                case (int)DirectionEnum.right:
+                    {
+                        return this.Right;
+                    }
+                case (int)DirectionEnum.up:
+                    {
+                        return this.Up;
+                    }
+                case (int)DirectionEnum.down:
+                    {
+                        return this.Down;
+                    }
+
+                default:
+                    {
+                        throw new System.ArgumentException("Invalid index used");
+                        return 0;
+                    }
+            }
+        }
 
         public DirectionalNode(int initialValue)
         {
-            this.directions = new SByte[6];
-            this.Set(initialValue);
+
+            //this.directions = new Matrix3x2();
+            this.directions.M11 = initialValue;
+            this.directions.M12 = initialValue;
+            this.directions.M21 = initialValue;
+            this.directions.M22 = initialValue;
+            this.directions.M31 = initialValue;
+            this.directions.M32 = initialValue;
         }
 
 
-        public DirectionalNode(DirectionalNode initialNode)
+        public DirectionalNode(in DirectionalNode initialNode)
         {
-            this.directions = new SByte[6];
-            for (int i = 0; i < this.directions.Length; ++i) { this.directions[i] = initialNode.directions[i]; }
+            this.directions = initialNode.directions;
+            
+            //for (int i = 0; i < 6; ++i) { this.directions[i] = initialNode.directions[i]; }
         }
 
 
         public DirectionalNode(int forward, int backward, int left, int right, int up, int down)
         {
-            this.directions = new SByte[6];
-            this.directions[(int)directionEnum.forward] = (SByte)forward;
-            this.directions[(int)directionEnum.backward] = (SByte)backward;
-            this.directions[(int)directionEnum.left] = (SByte)left;
-            this.directions[(int)directionEnum.right] = (SByte)right;
-            this.directions[(int)directionEnum.up] = (SByte)up;
-            this.directions[(int)directionEnum.down] = (SByte)down;
+            this.directions.M11 = forward;
+            this.directions.M12 = backward;
+            this.directions.M21 = left;
+            this.directions.M22 = right;
+            this.directions.M31 = up;
+            this.directions.M32 = down;
+
+            //this.directions = new Matrix3x2(forward, backward, left, right, up, down);
         }
 
-        void Set(int setValue)
+        DirectionalNode(Single forward, Single backward, Single left, Single right, Single up, Single down)
         {
-            Array.Fill<SByte>(this.directions, (SByte)setValue);
+            this.directions.M11 = forward;
+            this.directions.M12 = backward;
+            this.directions.M21 = left;
+            this.directions.M22 = right;
+            this.directions.M31 = up;
+            this.directions.M32 = down;
         }
+
+        DirectionalNode(Matrix3x2 directionsMatrix)
+        {
+            this.directions = directionsMatrix;
+        }
+
+        //void Set(int setValue)
+        //{
+        //    this.directions = new Matrix3x2(setValue, setValue, setValue, setValue, setValue, setValue);
+        //}
 
 
         /// <summary>
@@ -69,12 +138,22 @@ namespace DirectionalPathingLayers
         /// <returns></returns>
         public static DirectionalNode operator &(DirectionalNode left, DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < left.directions.Length; ++i)
+            Single And(int leftValue, int rightValue)
             {
-                newNode.directions[i] = (SByte)((left.directions[i] != 0 && right.directions[i] != 0) ? 1 : 0);
+                return (leftValue != 0) && (rightValue != 0)? 1.0f : 0.0f;
             }
-            return newNode;
+            return new DirectionalNode(And(left.Forward, right.Forward),
+                                       And(left.Backward, right.Backward),
+                                       And(left.Left, right.Left),
+                                       And(left.Right, right.Right),
+                                       And(left.Up, right.Up),
+                                       And(left.Down, right.Down)
+                                       );
+            //for (int i = 0; i < 6; ++i)
+            //{
+            //    newNode.directions[i] = (SByte)((left.directions[i] != 0 && right.directions[i] != 0) ? 1 : 0);
+            //}
+            //return newNode;
         }
 
 
@@ -87,12 +166,24 @@ namespace DirectionalPathingLayers
         /// <returns></returns>
         public static DirectionalNode operator |(DirectionalNode left, DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < left.directions.Length; ++i)
+            Single Or(int leftValue, int rightValue)
             {
-                newNode.directions[i] = (SByte)((left.directions[i] != 0 || right.directions[i] != 0) ? 1 : 0);
+                return (leftValue != 0) || (rightValue != 0) ? 1.0f : 0.0f;
             }
-            return newNode;
+            return new DirectionalNode(Or(left.Forward, right.Forward),
+                                       Or(left.Backward, right.Backward),
+                                       Or(left.Left, right.Left),
+                                       Or(left.Right, right.Right),
+                                       Or(left.Up, right.Up),
+                                       Or(left.Down, right.Down)
+                                       );
+
+            //DirectionalNode newNode = new DirectionalNode(0);
+            //for (int i = 0; i < left.directions.Length; ++i)
+            //{
+            //    newNode.directions[i] = (SByte)((left.directions[i] != 0 || right.directions[i] != 0) ? 1 : 0);
+            //}
+            //return newNode;
         }
 
 
@@ -104,12 +195,7 @@ namespace DirectionalPathingLayers
         /// <returns></returns>
         public static DirectionalNode operator +(DirectionalNode left, DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < left.directions.Length; ++i)
-            {
-                newNode.directions[i] = (SByte)(left.directions[i] + right.directions[i]);
-            }
-            return newNode;
+            return new DirectionalNode(left.directions + right.directions);
         }
 
 
@@ -121,12 +207,7 @@ namespace DirectionalPathingLayers
         /// <returns></returns>
         public static DirectionalNode operator -(DirectionalNode left, DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < left.directions.Length; ++i)
-            {
-                newNode.directions[i] = (SByte)(left.directions[i] - right.directions[i]);
-            }
-            return newNode;
+            return new DirectionalNode(left.directions - right.directions);
         }
 
 
@@ -136,24 +217,24 @@ namespace DirectionalPathingLayers
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static DirectionalNode operator *(DirectionalNode left, DirectionalNode right)
+        public static DirectionalNode operator *(in DirectionalNode left, in DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < left.directions.Length; ++i)
-            {
-                newNode.directions[i] = (SByte)(left.directions[i] * right.directions[i]);
-            }
-            return newNode;
+            //DirectionalNode newNode;
+            //newNode.directions = left.directions * right.directions;
+            //return newNode;
+            return new DirectionalNode(left.directions * right.directions);
         }
 
         public static DirectionalNode operator *(int left, DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < right.directions.Length; ++i)
-            {
-                newNode.directions[i] = (SByte)(left * right.directions[i]);
-            }
-            return newNode;
+            Single singleLeft = (Single)left;
+            return new DirectionalNode(singleLeft * right.sForward,
+                                       singleLeft * right.sBackward,
+                                       singleLeft * right.sLeft,
+                                       singleLeft * right.sRight,
+                                       singleLeft * right.sUp,
+                                       singleLeft * right.sDown
+                                       );
         }
 
         /// <summary>
@@ -165,14 +246,18 @@ namespace DirectionalPathingLayers
         /// <returns></returns>
         public static DirectionalNode operator ^(DirectionalNode left, DirectionalNode right)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < left.directions.Length; ++i)
+            Single XOr(int leftValue, int rightValue)
             {
-                //If left is 0 but not right, OR left is not 0 but right is, it's XOR
-                newNode.directions[i] = (SByte)(((left.directions[i] == 0 && right.directions[i] != 0) ||
-                                         (left.directions[i] != 0 && right.directions[i] == 0)) ? 1 : 0);
+                return ((leftValue == 0) && (rightValue != 0) ||
+                        (leftValue != 0) && (rightValue == 0)) ? 1.0f : 0.0f;
             }
-            return newNode;
+            return new DirectionalNode(XOr(left.Forward, right.Forward),
+                                       XOr(left.Backward, right.Backward),
+                                       XOr(left.Left, right.Left),
+                                       XOr(left.Right, right.Right),
+                                       XOr(left.Up, right.Up),
+                                       XOr(left.Down, right.Down)
+                                       );
         }
 
 
@@ -184,12 +269,17 @@ namespace DirectionalPathingLayers
         /// <returns></returns>
         public static DirectionalNode operator ~(DirectionalNode node)
         {
-            DirectionalNode newNode = new DirectionalNode(0);
-            for (int i = 0; i < node.directions.Length; ++i)
+            Single Invert(int value)
             {
-                newNode.directions[i] = (SByte)(node.directions[i] == 0 ? 1 : 0);
+                return (value == 0 ) ? 1.0f : 0.0f;
             }
-            return newNode;
+            return new DirectionalNode(Invert(node.Forward),
+                                       Invert(node.Backward),
+                                       Invert(node.Left),
+                                       Invert(node.Right),
+                                       Invert(node.Up),
+                                       Invert(node.Down)
+                                       );
         }
 
         public override string ToString()
@@ -204,11 +294,7 @@ namespace DirectionalPathingLayers
 
         public bool Equals(DirectionalNode other)
         {
-            for (int i = 0; i < this.directions.Length; ++i)
-            {
-                if (this.directions[i] != other.directions[i]) { return false; }
-            }
-            return true;
+            return this.directions.Equals(other.directions);
         }
 
         public override int GetHashCode()

@@ -1,9 +1,34 @@
 using NUnit.Framework;
-
+using System.Numerics;
+using System;
 namespace DirectionalPathingLayers.Tests
 {
     public class test_DirectionalNode
     {
+        [Test]
+        public void Test_HardwareSupport()
+        {
+            Assert.IsTrue(Vector.IsHardwareAccelerated);
+        }
+
+        [Test]
+        public void Test_Single()
+        {
+            Single single = 0.0f;
+
+            for (double i = 0.0f; i < 100000000.0f; )
+            {
+                ++i;
+                ++single;
+                if (i != (double)single)
+                {
+                    Console.WriteLine($"Mismatch.  i={i}  single={single} ");
+                    return;
+                }
+                //Assert.Equals(i, (double)single);
+            }
+        }
+
         [Test]
         public void Test_Invert()
         {

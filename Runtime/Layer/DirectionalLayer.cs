@@ -77,20 +77,21 @@ namespace DirectionalPathingLayers
 
         public int[,] Get_ints(int directionIndex)
         {
-            if (directionIndex < 0 || directionIndex >= this.directionalNodes[0, 0].Directions.Length)
-            {
-                throw new ArgumentException("directionIndex index invalid");
-            }
+            
             int[,] intArr = new int[this.directionalNodes.GetLength(0), this.directionalNodes.GetLength(1)];
             for (int x = 0; x < this.directionalNodes.GetLength(0); ++x)
             {
                 for (int y = 0; y < this.directionalNodes.GetLength(1); ++y)
                 {
-                    intArr[x, y] = this.directionalNodes[x, y].Directions[directionIndex];
+                    intArr[x, y] = this.directionalNodes[x, y].DirectionByIndex(directionIndex);
                 }
             }
             return intArr;
         }
+
+
+
+
         /// <summary>
         /// Gets number of nodes to the left or right of the center node.  
         /// </summary>
